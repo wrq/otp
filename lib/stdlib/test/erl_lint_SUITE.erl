@@ -1034,7 +1034,7 @@ singleton_type_var_errors(Config) when is_list(Config) ->
                   error.
              ">>,
            [],
-           {warnings,[{{2,36},erl_lint,{singleton_typevar,'Unknown'}}]}},
+           {errors,[{{2,36},erl_lint,{singleton_typevar,'Unknown'}}], []}},
 
           {singleton_error2,
            <<"-spec test_singleton_list_typevars_in_union([Opts]) -> term() when
@@ -1042,7 +1042,7 @@ singleton_type_var_errors(Config) when is_list(Config) ->
                 test_singleton_list_typevars_in_union(_) ->
                     error.">>,
            [],
-           {warnings,[{{2,36},erl_lint,{singleton_typevar,'Unknown'}}]}},
+           {errors,[{{2,36},erl_lint,{singleton_typevar,'Unknown'}}], []}},
 
           {singleton_error3,
            <<"-spec test_singleton_list_typevars_in_list([Opts]) -> term() when
@@ -1067,7 +1067,7 @@ singleton_type_var_errors(Config) when is_list(Config) ->
                 test_singleton_buried_typevars_in_union(_) ->
                     error.">>,
            [],
-           {warnings,[{{3,38},erl_lint,{singleton_typevar,'X'}}]}},
+           {errors,[{{3,38},erl_lint,{singleton_typevar,'X'}}], []}},
 
           {singleton_error6,
            <<"-spec test_multiple_subtypes_to_same_typevar(Opts) -> term() when
@@ -1098,15 +1098,6 @@ singleton_type_var_errors(Config) when is_list(Config) ->
                   error.">>,
            [],
            {errors,[{{2,21},erl_lint,{singleton_typevar,'Unused'}}],[]}},
-
-          {singleton_disabled_warning,
-           <<"-spec test_singleton_typevars_in_union(Opts) -> term() when
-                      Opts :: {ok, Unknown} | {error, Unknown}.
-                test_singleton_typevars_in_union(_) ->
-                  error.
-             ">>,
-           [nowarn_singleton_typevar],
-           []},
 
           {singleton_ok1,
            <<"-spec test_multiple_occurrences_singleton(Opts) -> term() when
@@ -3819,7 +3810,7 @@ otp_8051(Config) when is_list(Config) ->
 
 %% Check that format warnings are generated.
 format_warn(Config) when is_list(Config) ->
-    L1 = 16,
+    L1 = 23,
     L2 = 5,
     format_level(1, L1, Config),
     format_level(2, L1+L2, Config),
@@ -4070,7 +4061,7 @@ maps(Config) ->
              {{4,24},erl_lint,illegal_map_construction},
              {{8,36},erl_lint,illegal_map_construction}],
             [{{5,20},erl_lint,update_literal}]}},
-          {illegal_pattern,
+          {illegal_map_assoc_in_pattern,
            <<"t(#{ a := A,
                    c => d,
                    e := F,
@@ -4082,7 +4073,7 @@ maps(Config) ->
                   {A,F}.
             ">>,
            [],
-           {errors,[{{2,22},erl_lint,illegal_pattern},
+           {errors,[{{2,22},erl_lint,illegal_map_assoc_in_pattern},
                     {{7,28},erl_lint,illegal_pattern}],
             []}},
           {error_in_illegal_map_construction,
